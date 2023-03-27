@@ -1,15 +1,12 @@
 package com.FullSatckProject.WalletApp.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.PrePersist;
+import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 
@@ -17,6 +14,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 
 @Data
@@ -37,7 +36,13 @@ public class Wallet {
     @Min(1)
     @Max(3)
     private Integer priority; //1=High; 2=Medium; 3=Low
+
     private Double currentBalance = 0.0000;
+
+//    @OneToMany(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY,mappedBy = "wallet",orphanRemoval = true)
+//    @JsonIgnore
+    private List<Transaction> transactions;
+
 //    @PrePersist
 //    public void setBalance(){ this.currentBalance = new Double(0); }
 
