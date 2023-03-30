@@ -9,4 +9,5 @@ import java.util.List;
 
 @Repository
 public interface WalletRepository extends MongoRepository<Wallet, Long> {
+    List<Wallet> findByUserId(int userId);
 }

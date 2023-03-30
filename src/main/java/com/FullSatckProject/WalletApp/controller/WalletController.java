@@ -24,36 +24,36 @@ public class WalletController {
 	@Autowired
 	private ValidationErrorService validationService;
 	
-	@GetMapping
-	public ResponseEntity<?> getAll(){
-		return new ResponseEntity<>(walletService.getAll(),HttpStatus.OK);
+	@GetMapping("/{userId}")
+	public ResponseEntity<?> getAll(@PathVariable int userId){
+		return new ResponseEntity<>(walletService.getAll(userId),HttpStatus.OK);
 	}
 
-	@GetMapping("/{id}")
-	public ResponseEntity<?> getById(@PathVariable Long id){
-		return new ResponseEntity<>(walletService.getById(id),HttpStatus.OK);
+	@GetMapping("/{userId}/{id}")
+	public ResponseEntity<?> getById(@PathVariable int userId,@PathVariable Long id){
+		return new ResponseEntity<>(walletService.getById(userId,id),HttpStatus.OK);
 	}
 	
-	@PostMapping
-	public ResponseEntity<?> create(@Valid @RequestBody Wallet wallet, BindingResult result ){
+	@PostMapping("/{userId}")
+	public ResponseEntity<?> create(@PathVariable int userId,@Valid @RequestBody Wallet wallet, BindingResult result ){
 		ResponseEntity errors = validationService.validate(result);
 		if(errors!=null) return errors;
-		Wallet walletSaved =  walletService.createOrUpdate(wallet);
+		Wallet walletSaved =  walletService.createOrUpdate(userId ,wallet);
 		return new ResponseEntity<Wallet>(walletSaved,HttpStatus.CREATED);
 	}
 
-	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@PathVariable Long id,@Valid @RequestBody Wallet wallet, BindingResult result){
+	@PutMapping("/{userId}/{id}")
+	public ResponseEntity<?> update(@PathVariable int userId,@PathVariable Long id,@Valid @RequestBody Wallet wallet, BindingResult result){
 		ResponseEntity errors = validationService.validate(result);
 		if(errors != null) return errors;
 		wallet.setId(id);
-		Wallet walletSaved = walletService.createOrUpdate(wallet);
+		Wallet walletSaved = walletService.createOrUpdate(userId,wallet);
 		return new ResponseEntity<Wallet>(walletSaved,HttpStatus.OK);
 	}
 
-	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(@PathVariable Long id){
-		walletService.delete(id);
+	@DeleteMapping("/{userId}/{id}")
+	public ResponseEntity<?> delete(@PathVariable int userId,@PathVariable Long id){
+		walletService.delete(userId,id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }
