@@ -29,9 +29,9 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<User> getById(@PathVariable int id){
-        System.out.println(id);
-        return new ResponseEntity<>(userService.getById(id),HttpStatus.OK);
+    public ResponseEntity<User> getById(@PathVariable int userId){
+        System.out.println(userId);
+        return new ResponseEntity<>(userService.getById(userId),HttpStatus.OK);
     }
 
     @PostMapping("/register")
@@ -41,10 +41,13 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@Valid @RequestBody User user){
-        Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
-        if(existingUser.isPresent() && existingUser.get().getPassword() == user.getPassword()){
-            return ResponseEntity.ok("Login successful");
+    public ResponseEntity<?> loginUser(@RequestBody User user){
+        User existingUser = userRepository.findByEmail(user.getEmail()).orElse(null);
+        System.out.println("existingUser"+existingUser);
+        if(existingUser != null && existingUser.getPassword() == user.getPassword()){
+            System.out.println("inside existingUser");
+            existingUser.setPassword(null);
+            return new ResponseEntity<User>(existingUser,HttpStatus.OK);
         } else {
             return ResponseEntity.badRequest().body("Invalid username/password");
         }

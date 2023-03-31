@@ -32,7 +32,7 @@ public class UserService {
         if(user != null){
 
             user.setWallets(walletList);
-            userRepository.save(user);
+//            userRepository.save(user);
             return user;
         }
         throw new WalletException("User with "+id+" does not exists!");
@@ -43,7 +43,7 @@ public class UserService {
 //            throw new UserNotFound();
         }
         userRepository.save(user);
-        user.setPassword(null);
+//        user.setPassword(null);
         return user;
     }
 

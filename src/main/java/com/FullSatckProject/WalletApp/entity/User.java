@@ -3,10 +3,12 @@ package com.FullSatckProject.WalletApp.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -16,7 +18,6 @@ import java.util.Random;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @Document(collection = "user")
 public class User {
 

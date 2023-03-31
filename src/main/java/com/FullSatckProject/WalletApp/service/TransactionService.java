@@ -67,6 +67,7 @@ public class TransactionService {
                 }
                 if(transaction.getType() == 3){
                     User newUser = userRepository.findByEmail(transaction.getUserEmail()).get();
+                    System.out.println("newUser is "+newUser);
                     newUser.setBalance(newUser.getBalance() + transaction.getAmount());
                     wallet.setCurrentBalance(wallet.getCurrentBalance() - transaction.getAmount());
                     if(wallet.getCurrentBalance() < 0){
